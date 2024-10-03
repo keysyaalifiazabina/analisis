@@ -65,7 +65,7 @@ def create_rfm_df(df):
     return rfm_df
 
 # Membaca data
-all_df = pd.read_csv("/dasboard/all_df.csv")
+all_df = pd.read_csv("all_df.csv")
 
 # Mengkonversi kolom tanggal
 datetime_columns = ["order_approved_at", "order_purchase_timestamp", "order_delivered_carrier_date",
