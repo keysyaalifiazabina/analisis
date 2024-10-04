@@ -3,12 +3,15 @@
 ```
 conda create --name main-ds python=3.12
 conda activate main-ds
+pip install -r requirements.txt
 ```
 ## Settup enviroment shell/terminal (mengarahkan ke folder directory yang dibuat)
 ```
 mkdir proyek_analisis_data
+cd proyek_analisis_data
 pipenv install
 pipenv shell
+pip install -r requirements.txt
 ```
 ## Running dashboard di local
 ```
