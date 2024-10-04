@@ -1,5 +1,5 @@
 # Running E-Commerce Dashboard✨
-SC data: https: [Dataset](//www.kaggle.com/datasets/olistbr/brazilian-ecommerce).
+SC data: https: [Brazilian E-Commerce Public Dataset by Olist](//www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
 ## Settup virtual environment dengan Miniconda/Anaconda
 ```
 conda create --name main-ds python=3.12
