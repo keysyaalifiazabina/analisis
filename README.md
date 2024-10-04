@@ -1,4 +1,5 @@
 # Running E-Commerce Dashboard✨
+SC data: [Brazilian E-Commerce Public Dataset by Olist] (https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
 ## Settup virtual environment dengan Miniconda/Anaconda
 ```
 conda create --name main-ds python=3.12
@@ -16,4 +17,5 @@ pip install -r requirements.txt
 ## Running dashboard di local
 ```
 streamlit run dashboard/dashboard.py
+(https://keysyaaz.streamlit.app/)
 ```
