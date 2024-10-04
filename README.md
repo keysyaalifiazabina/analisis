@@ -1,14 +1,16 @@
-# Menjalankan dashboard di lokal
-## Membuat dan mengaktifkan virtual environment dengan conda
+# Running E-Commerce Dashboard✨
+## Settup virtual environment dengan Miniconda/Anaconda
 ```
 conda create --name main-ds python=3.12
 conda activate main-ds
 ```
-## Menginstall library streamlit babel
+## Settup enviroment shell/terminal (mengarahkan ke folder directory yang dibuat)
 ```
-pip install streamlit babel
+mkdir proyek_analisis_data
+pipenv install
+pipenv shell
 ```
-## Menjalankan dashboard di local
+## Running dashboard di local
 ```
-streamlit run dashboard.py
+streamlit run dashboard/dashboard.py
 ```
