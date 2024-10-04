@@ -83,7 +83,7 @@ max_date = all_df["order_approved_at"].max()
 # Sidebar Streamlit
 with st.sidebar:
     st.header("Keysya AZ")
-    st.image("logo.png")
+    st.image("dashboard/logo.png")
     
     start_date, end_date = st.date_input(
         label='Range Time', min_value=min_date,
