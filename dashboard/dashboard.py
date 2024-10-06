@@ -69,6 +69,8 @@ def create_rfm_df(df):
     rfm_df.drop("max_order_timestamp", axis=1, inplace=True)
     
     return rfm_df
+orders_df = pd.read_csv("Data/orders_dataset.csv")
+rfm_df = create_rfm_df(orders_df)
 
 # Membaca data
 all_df = pd.read_csv("dashboard/all_df.csv")
