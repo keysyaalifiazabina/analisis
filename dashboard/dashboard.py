@@ -50,6 +50,7 @@ def create_most_seller_df(df):
     return most_seller_df
 
 def create_rfm_df(df):
+    pd.read_csv("Data/orders_dataset.csv")
     # Mengonversi kolom tanggal
     df['order_approved_at'] = pd.to_datetime(df['order_approved_at'], errors='coerce')
     df = df.dropna(subset=['order_approved_at'])
