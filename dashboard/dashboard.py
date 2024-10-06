@@ -60,11 +60,11 @@ def create_rfm_df(df):
     rfm_df.columns = ["customer_id", "max_order_timestamp", "frequency", "monetary"]
     
     # Menghitung recency
-    rfm_df["max_order_timestamp"] = pd.to_datetime(rfm_df["max_order_timestamp"]) 
-    recent_date = df["order_approved_at"].max() 
-    rfm_df["recency"] = rfm_df["max_order_timestamp"].apply(lambda x: (recent_date - x).days) 
+    rfm_df["max_order_timestamp"] = rfm_df["max_order_timestamp"].dt.date
+    recent_date = orders_df["order_approved_at"].dt.date.max()
+    rfm_df = rfm_df.dropna(subset=["max_order_timestamp"])
+    rfm_df["recency"] = rfm_df["max_order_timestamp"].apply(lambda x: (recent_date - x).days)
     rfm_df.drop("max_order_timestamp", axis=1, inplace=True)
-    
     return rfm_df
 
 # Membaca data
