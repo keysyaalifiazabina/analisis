@@ -228,24 +228,24 @@ colors = ["#624E88"] * 5  # Menggunakan warna yang sama untuk semua bar
 
 sns.barplot(y="recency", x="customer_id", data=rfm_df.sort_values(by="recency", ascending=True).head(5), palette=colors, ax=ax[0])
 ax[0].set_ylabel(None)
-ax[0].set_xlabel("customer_id", fontsize=30)
-ax[0].set_title("By Recency (days)", loc="center", fontsize=50)
-ax[0].tick_params(axis='y', labelsize=30)
-ax[0].tick_params(axis='x', labelsize=35)
- 
+ax[0].set_xlabel("customer_id") 
+ax[0].set_title("By Recency (days)", loc="center", fontsize=18)
+ax[0].tick_params(axis='x', labelsize=15)
+ax[0].set_xticklabels([])  
+
 sns.barplot(y="frequency", x="customer_id", data=rfm_df.sort_values(by="frequency", ascending=False).head(5), palette=colors, ax=ax[1])
 ax[1].set_ylabel(None)
-ax[1].set_xlabel("customer_id", fontsize=30)
-ax[1].set_title("By Frequency", loc="center", fontsize=50)
-ax[1].tick_params(axis='y', labelsize=30)
-ax[1].tick_params(axis='x', labelsize=35)
- 
+ax[1].set_xlabel("customer_id") 
+ax[1].set_title("By Frequency", loc="center", fontsize=18)
+ax[1].tick_params(axis='x', labelsize=15)
+ax[1].set_xticklabels([])  
+
 sns.barplot(y="monetary", x="customer_id", data=rfm_df.sort_values(by="monetary", ascending=False).head(5), palette=colors, ax=ax[2])
 ax[2].set_ylabel(None)
-ax[2].set_xlabel("customer_id", fontsize=30)
-ax[2].set_title("By Monetary", loc="center", fontsize=50)
-ax[2].tick_params(axis='y', labelsize=30)
-ax[2].tick_params(axis='x', labelsize=35)
+ax[2].set_xlabel("customer_id")  
+ax[2].set_title("By Monetary", loc="center", fontsize=18)
+ax[2].tick_params(axis='x', labelsize=15)
+ax[2].set_xticklabels([])
  
 st.pyplot(fig)
 
