@@ -51,22 +51,15 @@ def create_most_seller_df(df):
 
 
 def create_rfm_df(df):
-    df['order_approved_at'] = pd.to_datetime(df['order_approved_at'], errors='coerce')
-    df = df.dropna(subset=['order_approved_at'])
-    
-    # Menghitung nilai RFM
-    rfm_df = df.groupby(by="customer_id", as_index=False).agg({
+
+    rfm_df = df.groupby("customer_id", as_index=False).agg({
         "order_approved_at": "max",  
         "order_id": "nunique",
         "payment_value": "sum"
     })
     rfm_df.columns = ["customer_id", "max_order_timestamp", "frequency", "monetary"]
-    
-    # Menghitung recency
-    rfm_df["max_order_timestamp"] = rfm_df["max_order_timestamp"].dt.date
-    recent_date = df["order_approved_at"].dt.date.max()
-    rfm_df = rfm_df.dropna(subset=["max_order_timestamp"])
-    rfm_df["recency"] = rfm_df["max_order_timestamp"].apply(lambda x: (recent_date - x).days)
+    recent_date = df["order_approved_at"].max()
+    rfm_df["recency"] = (recent_date - rfm_df["max_order_timestamp"]).dt.days
     rfm_df.drop("max_order_timestamp", axis=1, inplace=True)
     return rfm_df
 
@@ -76,6 +69,7 @@ all_df = pd.read_csv("dashboard/all_df.csv")
 # Mengkonversi kolom tanggal
 datetime_columns = ["order_approved_at", "order_purchase_timestamp", "order_delivered_carrier_date",
                     "order_delivered_customer_date", "order_estimated_delivery_date"]
+
 for column in datetime_columns:
     all_df[column] = pd.to_datetime(all_df[column])
 
@@ -83,8 +77,7 @@ for column in datetime_columns:
 all_df.sort_values(by="order_approved_at", inplace=True)
 all_df.reset_index(drop=True, inplace=True)
 
-min_date = all_df["order_approved_at"].min()
-max_date = all_df["order_approved_at"].max()
+min_date, max_date = all_df["order_approved_at"].min(), all_df["order_approved_at"].max()
 
 # Sidebar Streamlit
 with st.sidebar:
