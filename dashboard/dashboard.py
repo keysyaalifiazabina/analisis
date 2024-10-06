@@ -66,7 +66,7 @@ def create_rfm_df(df):
     # Menghitung recency
     rfm_df["max_order_timestamp"] = pd.to_datetime(rfm_df["max_order_timestamp"]) 
     recent_date = df["order_approved_at"].max() 
-    rfm_df["recency"] = (recent_date - rfm_df["max_order_timestamp"]).dt.days  
+    rfm_df["recency"] = rfm_df["max_order_timestamp"].apply(lambda x: (recent_date - x).days) 
     rfm_df.drop("max_order_timestamp", axis=1, inplace=True)
     
     return rfm_df
