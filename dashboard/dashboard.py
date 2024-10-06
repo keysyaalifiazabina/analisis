@@ -49,13 +49,14 @@ def create_most_seller_df(df):
     most_seller_df = df.groupby('seller_city').aggregate({'order_id': 'count'}).rename(columns={'order_id': 'order_count'}).sort_values(by='order_count', ascending=False).reset_index()
     return most_seller_df
 
+
 def create_rfm_df(df):
     # Mengonversi kolom tanggal
     df['order_approved_at'] = pd.to_datetime(df['order_approved_at'], errors='coerce')
     df = df.dropna(subset=['order_approved_at'])
     
     # Menghitung nilai RFM
-    rfm_df = df.groupby(by="customer_id", as_index=False).agg({
+    rfm_df = all_df.groupby(by="customer_id", as_index=False).agg({
         "order_approved_at": "max",  
         "order_id": "nunique",
         "payment_value": "sum"
@@ -69,8 +70,6 @@ def create_rfm_df(df):
     rfm_df.drop("max_order_timestamp", axis=1, inplace=True)
     
     return rfm_df
-orders_df = pd.read_csv("Data/orders_dataset.csv")
-rfm_df = create_rfm_df(orders_df)
 
 # Membaca data
 all_df = pd.read_csv("dashboard/all_df.csv")
