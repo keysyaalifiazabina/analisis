@@ -51,10 +51,6 @@ def create_most_seller_df(df):
 
 
 def create_rfm_df(df):
-    # Ensure the datetime conversion and drop NaN values
-    df['order_approved_at'] = pd.to_datetime(df['order_approved_at'], errors='coerce')
-    df = df.dropna(subset=['order_approved_at'])
-    
     # Aggregate the data
     rfm_df = df.groupby(by="customer_id", as_index=False).agg({
         "order_approved_at": "max",  
@@ -242,7 +238,7 @@ ax[0].set_ylabel("Recency (days)", fontsize=18)
 ax[0].set_xlabel("Customer ID", fontsize=18)
 ax[0].set_title("By Recency (days)", loc="center", fontsize=18)
 ax[0].tick_params(axis='x', labelsize=15)
-ax[0].set_xticklabels([])  
+ax[0].set_xticklabels([])  # Remove x-tick labels if needed
 
 # Plotting Frequency
 sns.barplot(y="frequency", x="customer_id", data=rfm_df.sort_values(by="frequency", ascending=False).head(5), palette=colors, ax=ax[1])
