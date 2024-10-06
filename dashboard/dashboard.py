@@ -50,19 +50,21 @@ def create_most_seller_df(df):
     return most_seller_df
 
 def create_rfm_df(df):
-    df['order_approved_at'] = pd.to_datetime(df['order_approved_at'], errors='coerce')
-    df = df.dropna(subset=['order_approved_at'])
-    
-    rfm_df = df.groupby(by="customer_id", as_index=False).agg({
-        "order_approved_at": "max",  
-        "order_id": "nunique",
-        "payment_value": "sum"
+    orders_df['order_approved_at'] = pd.to_datetime(orders_df['order_approved_at'], errors='coerce')
+    orders_df = orders_df.dropna(subset=['order_approved_at'])
+
+    # Nilai RFM
+    rfm_df = all_df.groupby(by="customer_id", as_index=False).agg({
+    "order_approved_at": "max",
+    "order_id": "nunique",
+    "payment_value": "sum"
     })
     rfm_df.columns = ["customer_id", "max_order_timestamp", "frequency", "monetary"]
-    
+
+    # RFM day
     rfm_df["max_order_timestamp"] = pd.to_datetime(rfm_df["max_order_timestamp"]) 
-    recent_date = df["order_approved_at"].max() 
-    rfm_df["recency"] = (recent_date - rfm_df["max_order_timestamp"])..apply(lambda x: (recent_date - x).days)
+    recent_date = orders_df["order_approved_at"].max()
+    rfm_df["recency"] = (recent_date - rfm_df["max_order_timestamp"]).dt.days
     rfm_df.drop("max_order_timestamp", axis=1, inplace=True)
     
     return rfm_df
