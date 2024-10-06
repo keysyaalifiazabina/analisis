@@ -52,9 +52,9 @@ def create_most_seller_df(df):
 
 def create_rfm_df(orders_df):
     orders_df['order_approved_at'] = pd.to_datetime(orders_df['order_approved_at'], errors='coerce')
-    orders_df = orders_df.dropna(subset=['order_approved_at'])
+    orders_df = all_df.dropna(subset=['order_approved_at'])
     
-    rfm_df = all_df.groupby(by="customer_id", as_index=False).agg({
+    rfm_df = orders_df.groupby(by="customer_id", as_index=False).agg({
         "order_approved_at": "max",  
         "order_id": "nunique",
         "payment_value": "sum"
@@ -213,7 +213,7 @@ for p in ax.patches:
 st.pyplot(plt)
 
 
-# Best Customer Based on RFM Parameters
+# Best Customer Berdasarkan RFM Parameters
 st.subheader("Best Customer Based on RFM Parameters")
  
 col1, col2, col3 = st.columns(3)
@@ -234,12 +234,12 @@ fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(35, 15))
 colors = ["#624E88", "#624E88", "#624E88", "#624E88", "#624E88"]
 
 # Recency
-sns.barplot(y="recency", x="customer_id", data=rfm_df.sort_values(by="recency").head(5), palette=colors, ax=ax[0])
+sns.barplot(y="recency", x="customer_id", data=rfm_df.sort_values(by="recency", ascending=True).head(5), palette=colors, ax=ax[0])
 ax[0].set_ylabel("Recency (days)", fontsize=18)
 ax[0].set_xlabel("Customer ID", fontsize=18)
 ax[0].set_title("By Recency (days)", loc="center", fontsize=18)
 ax[0].tick_params(axis='x', labelsize=15)
-ax[0].set_xticklabels([]) 
+ax[0].set_xticklabels(ax[0].get_xticklabels(), rotation=45, ha='right')
 
 # Frequency
 sns.barplot(y="frequency", x="customer_id", data=rfm_df.sort_values(by="frequency", ascending=False).head(5), palette=colors, ax=ax[1])
@@ -247,7 +247,7 @@ ax[1].set_ylabel("Frequency", fontsize=18)
 ax[1].set_xlabel("Customer ID", fontsize=18)
 ax[1].set_title("By Frequency", loc="center", fontsize=18)
 ax[1].tick_params(axis='x', labelsize=15)
-ax[1].set_xticklabels([])
+ax[1].set_xticklabels(ax[1].get_xticklabels(), rotation=45, ha='right')
 
 # Monetary
 sns.barplot(y="monetary", x="customer_id", data=rfm_df.sort_values(by="monetary", ascending=False).head(5), palette=colors, ax=ax[2])
@@ -255,7 +255,7 @@ ax[2].set_ylabel("Monetary Value", fontsize=18)
 ax[2].set_xlabel("Customer ID", fontsize=18)
 ax[2].set_title("By Monetary", loc="center", fontsize=18)
 ax[2].tick_params(axis='x', labelsize=15)
-ax[2].set_xticklabels([])
+ax[2].set_xticklabels(ax[2].get_xticklabels(), rotation=45, ha='right')
  
 st.pyplot(fig)
 
