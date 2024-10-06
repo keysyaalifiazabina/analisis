@@ -60,10 +60,10 @@ def create_rfm_df(df):
     })
     rfm_df.columns = ["customer_id", "max_order_timestamp", "frequency", "monetary"]
     
-    rfm_df["max_order_timestamp"] = pd.to_datetime(rfm_df["max_order_timestamp"])  # Ensure it's datetime
-    recent_date = df["order_approved_at"].max()  # Get the latest order date
-    rfm_df["recency"] = (recent_date - rfm_df["max_order_timestamp"]).dt.days  # Calculate recency in days
-    rfm_df.drop("max_order_timestamp", axis=1, inplace=True)  # Drop the intermediate column
+    rfm_df["max_order_timestamp"] = pd.to_datetime(rfm_df["max_order_timestamp"]) 
+    recent_date = df["order_approved_at"].max() 
+    rfm_df["recency"] = (recent_date - rfm_df["max_order_timestamp"]).dt.days 
+    rfm_df.drop("max_order_timestamp", axis=1, inplace=True)
     
     return rfm_df
 
