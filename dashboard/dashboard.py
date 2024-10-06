@@ -52,7 +52,7 @@ def create_most_seller_df(df):
 
 def create_rfm_df(df):
 
-    rfm_df = all_df.groupby("customer_id", as_index=False).agg({
+    rfm_df = df.groupby("customer_id", as_index=False).agg({
         "order_approved_at": "max",  
         "order_id": "nunique",
         "payment_value": "sum"
