@@ -50,10 +50,9 @@ def create_most_seller_df(df):
     return most_seller_df
 
 def create_rfm_df(df):
-    orders_df = pd.read_csv("Data/orders_dataset.csv")
     # Mengonversi kolom tanggal
-    orders_df['order_approved_at'] = pd.to_datetime(orders_df['order_approved_at'], errors='coerce')
-    orders_df = orders_df.dropna(subset=['order_approved_at'])
+    df['order_approved_at'] = pd.to_datetime(df['order_approved_at'], errors='coerce')
+    df = df.dropna(subset=['order_approved_at'])
     
     # Menghitung nilai RFM
     rfm_df = all_df.groupby(by="customer_id", as_index=False).agg({
