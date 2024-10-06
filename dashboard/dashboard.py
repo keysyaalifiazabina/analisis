@@ -225,29 +225,6 @@ with col2:
     avg_frequency = round(rfm_df.frequency.mean(), 2)
     st.metric("Average Frequency", value=avg_frequency)
 
-<<<<<<< HEAD
-sns.barplot(y="recency", x="customer_id", data=rfm_df.sort_values(by="recency", ascending=True).head(5), palette=colors, ax=ax[0])
-ax[0].set_ylabel(None)
-ax[0].set_xlabel("customer_id") 
-ax[0].set_title("By Recency (days)", loc="center", fontsize=18)
-ax[0].tick_params(axis='x', labelsize=15)
-ax[0].set_xticklabels([])  
-
-sns.barplot(y="frequency", x="customer_id", data=rfm_df.sort_values(by="frequency", ascending=False).head(5), palette=colors, ax=ax[1])
-ax[1].set_ylabel(None)
-ax[1].set_xlabel("customer_id") 
-ax[1].set_title("By Frequency", loc="center", fontsize=18)
-ax[1].tick_params(axis='x', labelsize=15)
-ax[1].set_xticklabels([])  
-
-sns.barplot(y="monetary", x="customer_id", data=rfm_df.sort_values(by="monetary", ascending=False).head(5), palette=colors, ax=ax[2])
-ax[2].set_ylabel(None)
-ax[2].set_xlabel("customer_id")  
-ax[2].set_title("By Monetary", loc="center", fontsize=18)
-ax[2].tick_params(axis='x', labelsize=15)
-ax[2].set_xticklabels([])
- 
-=======
 with col3:
     avg_monetary = format_currency(rfm_df.monetary.mean(), "AUD", locale='es_CO')
     st.metric("Average Monetary", value=avg_monetary)
@@ -279,7 +256,6 @@ ax[2].set_title("By Monetary", loc="center", fontsize=18)
 ax[2].tick_params(axis='x', labelsize=15)
 ax[2].set_xticklabels([])
 
->>>>>>> aa3587d36426d69a31f91a8d58c3eac49705e59b
 st.pyplot(fig)
 
 st.caption('Copyright (c) Keysya Alifia Zabina')
