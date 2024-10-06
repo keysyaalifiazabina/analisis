@@ -230,7 +230,7 @@ fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(35, 15))
 colors = ["#624E88"] * 5  # Use the same color for all bars
 
 # Plotting Recency
-sns.barplot(y="recency", x="customer_id", data=rfm_df.sort_values(by="recency", ascending=True).head(5), palette=colors, ax=ax[0])
+sns.barplot(y="recency", x="customer_id", data=rfm_df.sort_values(by="recency", ascending=False).head(5), palette=colors, ax=ax[0])
 ax[0].set_ylabel("Recency (days)", fontsize=18)
 ax[0].set_xlabel("Customer ID", fontsize=18)
 ax[0].set_title("By Recency (days)", loc="center", fontsize=18)
