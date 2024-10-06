@@ -50,21 +50,22 @@ def create_most_seller_df(df):
     return most_seller_df
 
 def create_rfm_df(df):
-    orders_df['order_approved_at'] = pd.to_datetime(orders_df['order_approved_at'], errors='coerce')
-    orders_df = orders_df.dropna(subset=['order_approved_at'])
-
-    # Nilai RFM
-    rfm_df = all_df.groupby(by="customer_id", as_index=False).agg({
-    "order_approved_at": "max",
-    "order_id": "nunique",
-    "payment_value": "sum"
+    # Mengonversi kolom tanggal
+    df['order_approved_at'] = pd.to_datetime(df['order_approved_at'], errors='coerce')
+    df = df.dropna(subset=['order_approved_at'])
+    
+    # Menghitung nilai RFM
+    rfm_df = df.groupby(by="customer_id", as_index=False).agg({
+        "order_approved_at": "max",  
+        "order_id": "nunique",
+        "payment_value": "sum"
     })
     rfm_df.columns = ["customer_id", "max_order_timestamp", "frequency", "monetary"]
-
-    # RFM day
+    
+    # Menghitung recency
     rfm_df["max_order_timestamp"] = pd.to_datetime(rfm_df["max_order_timestamp"]) 
-    recent_date = orders_df["order_approved_at"].max()
-    rfm_df["recency"] = (recent_date - rfm_df["max_order_timestamp"]).dt.days
+    recent_date = df["order_approved_at"].max() 
+    rfm_df["recency"] = (recent_date - rfm_df["max_order_timestamp"]).dt.days  # Memperbaiki bagian ini
     rfm_df.drop("max_order_timestamp", axis=1, inplace=True)
     
     return rfm_df
@@ -232,7 +233,7 @@ fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(35, 15))
 colors = ["#624E88"] * 5  # Use the same color for all bars
 
 # Plotting Recency
-sns.barplot(y="recency", x="customer_id", data=rfm_df.sort_values(by="recency", ascending=True).head(5), palette=colors, ax=ax[0])
+sns.barplot(y="recency", x="customer_id", data=rfm_df.sort_values(by="recency").head(5), palette=colors, ax=ax[0])
 ax[0].set_ylabel("Recency (days)", fontsize=18)
 ax[0].set_xlabel("Customer ID", fontsize=18)
 ax[0].set_title("By Recency (days)", loc="center", fontsize=18)
