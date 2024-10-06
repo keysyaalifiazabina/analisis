@@ -50,6 +50,11 @@ def create_most_seller_df(df):
     return most_seller_df
 
 def create_rfm_df(df):
+    # Mengonversi kolom tanggal
+    df['order_approved_at'] = pd.to_datetime(df['order_approved_at'], errors='coerce')
+    df = df.dropna(subset=['order_approved_at'])
+    
+    # Menghitung nilai RFM
     rfm_df = df.groupby(by="customer_id", as_index=False).agg({
         "order_approved_at": "max",  
         "order_id": "nunique",
@@ -57,9 +62,10 @@ def create_rfm_df(df):
     })
     rfm_df.columns = ["customer_id", "max_order_timestamp", "frequency", "monetary"]
     
-    rfm_df["max_order_timestamp"] = rfm_df["max_order_timestamp"].dt.date
-    recent_date = df["order_approved_at"].dt.date.max()
-    rfm_df["recency"] = rfm_df["max_order_timestamp"].apply(lambda x: (recent_date - x).days)
+    # Menghitung recency
+    rfm_df["max_order_timestamp"] = pd.to_datetime(rfm_df["max_order_timestamp"]) 
+    recent_date = df["order_approved_at"].max() 
+    rfm_df["recency"] = (recent_date - rfm_df["max_order_timestamp"]).dt.days  # Memperbaiki bagian ini
     rfm_df.drop("max_order_timestamp", axis=1, inplace=True)
     
     return rfm_df
@@ -208,24 +214,18 @@ st.pyplot(plt)
 
 # Best Customer Based on RFM Parameters
 st.subheader("Best Customer Based on RFM Parameters")
- 
+
 col1, col2, col3 = st.columns(3)
- 
+
 with col1:
     avg_recency = round(rfm_df.recency.mean(), 1)
     st.metric("Average Recency (days)", value=avg_recency)
- 
+
 with col2:
     avg_frequency = round(rfm_df.frequency.mean(), 2)
     st.metric("Average Frequency", value=avg_frequency)
- 
-with col3:
-    avg_monetary = format_currency(rfm_df.monetary.mean(), "AUD", locale='es_CO') 
-    st.metric("Average Monetary", value=avg_monetary)
- 
-fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(35, 15))
-colors = ["#624E88"] * 5  # Menggunakan warna yang sama untuk semua bar
 
+<<<<<<< HEAD
 sns.barplot(y="recency", x="customer_id", data=rfm_df.sort_values(by="recency", ascending=True).head(5), palette=colors, ax=ax[0])
 ax[0].set_ylabel(None)
 ax[0].set_xlabel("customer_id") 
@@ -247,6 +247,39 @@ ax[2].set_title("By Monetary", loc="center", fontsize=18)
 ax[2].tick_params(axis='x', labelsize=15)
 ax[2].set_xticklabels([])
  
+=======
+with col3:
+    avg_monetary = format_currency(rfm_df.monetary.mean(), "AUD", locale='es_CO')
+    st.metric("Average Monetary", value=avg_monetary)
+
+fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(35, 15))
+colors = ["#624E88"] * 5  # Use the same color for all bars
+
+# Plotting Recency
+sns.barplot(y="recency", x="customer_id", data=rfm_df.sort_values(by="recency").head(5), palette=colors, ax=ax[0])
+ax[0].set_ylabel("Recency (days)", fontsize=18)
+ax[0].set_xlabel("Customer ID", fontsize=18)
+ax[0].set_title("By Recency (days)", loc="center", fontsize=18)
+ax[0].tick_params(axis='x', labelsize=15)
+ax[0].set_xticklabels([])  # Remove x-tick labels if needed
+
+# Plotting Frequency
+sns.barplot(y="frequency", x="customer_id", data=rfm_df.sort_values(by="frequency", ascending=False).head(5), palette=colors, ax=ax[1])
+ax[1].set_ylabel("Frequency", fontsize=18)
+ax[1].set_xlabel("Customer ID", fontsize=18)
+ax[1].set_title("By Frequency", loc="center", fontsize=18)
+ax[1].tick_params(axis='x', labelsize=15)
+ax[1].set_xticklabels([])
+
+# Plotting Monetary
+sns.barplot(y="monetary", x="customer_id", data=rfm_df.sort_values(by="monetary", ascending=False).head(5), palette=colors, ax=ax[2])
+ax[2].set_ylabel("Monetary Value", fontsize=18)
+ax[2].set_xlabel("Customer ID", fontsize=18)
+ax[2].set_title("By Monetary", loc="center", fontsize=18)
+ax[2].tick_params(axis='x', labelsize=15)
+ax[2].set_xticklabels([])
+
+>>>>>>> aa3587d36426d69a31f91a8d58c3eac49705e59b
 st.pyplot(fig)
 
 st.caption('Copyright (c) Keysya Alifia Zabina')
