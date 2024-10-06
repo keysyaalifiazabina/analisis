@@ -229,7 +229,7 @@ with col3:
     avg_monetary = format_currency(rfm_df.monetary.mean(), "AUD", locale='es_CO')
     st.metric("Average Monetary", value=avg_monetary)
 
-fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(35, 15))
+fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(30, 6))
 colors = ["#624E88"] * 5  # Use the same color for all bars
 
 # Plotting Recency
